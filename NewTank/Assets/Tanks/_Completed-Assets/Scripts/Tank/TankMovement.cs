@@ -17,13 +17,15 @@ namespace Complete
         private Rigidbody m_Rigidbody;              // Reference used to move the tank.
         private float m_MovementInputValue;         // The current value of the movement input.
         private float m_TurnInputValue;             // The current value of the turn input.
-        private float m_OriginalPitch;              // The pitch of the audio source at the start of the scene.
+		private float flyInput;
+		private float m_OriginalPitch;              // The pitch of the audio source at the start of the scene.
         private ParticleSystem[] m_particleSystems; // References to all the particles systems used by the Tanks
 
         private void Awake ()
         {
             m_Rigidbody = GetComponent<Rigidbody> ();
-        }
+			m_Rigidbody.constraints =  m_Rigidbody.constraints & ~RigidbodyConstraints.FreezePositionY;
+		}
 
 
         private void OnEnable ()
@@ -61,6 +63,7 @@ namespace Complete
 
         private void Start ()
         {
+            
             // The axes names are based on player number.
             m_MovementAxisName = "Vertical" + m_PlayerNumber;
             m_TurnAxisName = "Horizontal" + m_PlayerNumber;
@@ -75,8 +78,8 @@ namespace Complete
             // Store the value of both input axes.
             m_MovementInputValue = Input.GetAxis (m_MovementAxisName);
             m_TurnInputValue = Input.GetAxis (m_TurnAxisName);
-
-            EngineAudio ();
+			flyInput = Input.GetAxis("Fly");
+			EngineAudio ();
         }
 
 
@@ -121,8 +124,11 @@ namespace Complete
             // Create a vector in the direction the tank is facing with a magnitude based on the input, speed and the time between frames.
             Vector3 movement = transform.forward * m_MovementInputValue * m_Speed * Time.deltaTime;
 
-            // Apply this movement to the rigidbody's position.
-            m_Rigidbody.MovePosition(m_Rigidbody.position + movement);
+			//fly
+			movement += transform.up * flyInput * m_Speed * Time.deltaTime;
+
+			// Apply this movement to the rigidbody's position.
+			m_Rigidbody.MovePosition(m_Rigidbody.position + movement);
         }
 
 
