@@ -56,12 +56,14 @@ namespace Complete
 
                 // If there is no TankHealth script attached to the gameobject, go on to the next collider.
                 if (targetHealth == null)
-                    continue;
-
-
+				{
+					continue;
+				}
                 // Deal this damage to the tank.
                 targetHealth.Damage (damage);
             }
+
+			m_ExplosionParticles.transform.parent = null;
 
 			// Play the particle system.
 			m_ExplosionParticles.Play();
