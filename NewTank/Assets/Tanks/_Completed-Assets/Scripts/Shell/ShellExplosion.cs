@@ -49,6 +49,7 @@ namespace Complete
 				// Add an explosion force.
 				targetRigidbody.AddExplosionForce(m_ExplosionForce, transform.position, m_ExplosionRadius);
 
+<<<<<<< HEAD
 				// Find the TankHealth script associated with the rigidbody.
 				TankHealth targetHealth = targetRigidbody.GetComponent<TankHealth>();
 
@@ -59,13 +60,27 @@ namespace Complete
 				}
 				// Calculate the amount of damage the target should take based on it's distance from the shell.
 				float damage = CalculateDamage(targetRigidbody.position);
+=======
+                // Find the TankHealth script associated with the rigidbody.
+                IDamagable targetHealth = targetRigidbody.GetComponent<IDamagable> ();
+
+                // If there is no TankHealth script attached to the gameobject, go on to the next collider.
+                if (targetHealth == null)
+                    continue;
+>>>>>>> master
 
 				// Deal this damage to the tank.
 				targetHealth.TakeDamage(damage);
 			}
 
+<<<<<<< HEAD
 			// Unparent the particles from the shell.
 			m_ExplosionParticles.transform.parent = null;
+=======
+                // Deal this damage to the tank.
+                targetHealth.Damage (damage);
+            }
+>>>>>>> master
 
 			// Play the particle system.
 			m_ExplosionParticles.Play();

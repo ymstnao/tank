@@ -3,7 +3,7 @@ using UnityEngine.UI;
 
 namespace Complete
 {
-    public class TankHealth : MonoBehaviour
+    public class TankHealth : MonoBehaviour, IDamagable
     {
         public float m_StartingHealth = 100f;               // The amount of health each tank starts with.
         public Slider m_Slider;                             // The slider to represent how much health the tank currently has.
@@ -43,10 +43,10 @@ namespace Complete
         }
 
 
-        public void TakeDamage (float amount)
+        public void Damage (float damage)
         {
             // Reduce current health by the amount of damage done.
-            m_CurrentHealth -= amount;
+            m_CurrentHealth -= damage;
 
             // Change the UI elements appropriately.
             SetHealthUI ();
