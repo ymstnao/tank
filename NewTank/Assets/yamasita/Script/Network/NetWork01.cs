@@ -1,8 +1,22 @@
 ﻿using UnityEngine;
+using UnityEngine.UI;
 using System.Collections;
 
 public class NetWork01 : MonoBehaviour
 {
+
+	[SerializeField]
+	Text textStatus;
+	[SerializeField]
+	GameObject player;
+	[SerializeField]
+	Transform spawnPoint;
+	[SerializeField]
+	private GameObject camera;
+
+	[SerializeField]
+	GameObject gameManager;
+
 	void Start()
 	{
 		// Photonに接続する(引数でゲームのバージョンを指定できる)
@@ -14,10 +28,10 @@ public class NetWork01 : MonoBehaviour
 	{
 
 		RoomOptions roomOptions = new RoomOptions();
-        roomOptions.MaxPlayers = 20;
-        PhotonNetwork.JoinOrCreateRoom("Room1", roomOptions, TypedLobby.Default);
-        // 部屋に参加、存在しない時作成して参加
-		
+		roomOptions.MaxPlayers = 20;
+		PhotonNetwork.JoinOrCreateRoom("Room1", roomOptions, TypedLobby.Default);
+		// 部屋に参加、存在しない時作成して参加
+
 		// Debug.Log("ロビーに入りました。");
 
 		// // ルームに入室する
@@ -28,23 +42,29 @@ public class NetWork01 : MonoBehaviour
 	void OnJoinedRoom()
 	{
 		Debug.Log("ルームへ入室しました。");
-		//   Vector3 pos;
-        // pos = spawnPoint.position;
-        // GameObject obj = PhotonNetwork.Instantiate(player.name, pos, Quaternion.identity, 0);
-        // GetComponent<Camera>().transform.position = pos + cameraOffset;
-        // GetComponent<Camera>().transform.parent = obj.transform;
+		Vector3 pos;
+		pos = spawnPoint.position;
+		GameObject obj = PhotonNetwork.Instantiate(player.name, pos, Quaternion.identity, 0);
+		if (PhotonNetwork.isMasterClient)
+		{
+			PhotonNetwork.InstantiateSceneObject(gameManager.name, Vector3.zero, Quaternion.identity, 0, null);
 
-        // if (PhotonNetwork.isMasterClient)
-        //     PhotonNetwork.InstantiateSceneObject(gameManager.name, Vector3.zero, Quaternion.identity, 0, null);
+		}
+
+		GameObject.FindObjectOfType<GamePlayManager>().CameraUpdate();
 	}
 
-	// ルームの入室に失敗すると呼ばれる
-	void OnPhotonRandomJoinFailed()
-	{
-		Debug.Log("ルームの入室に失敗しました。");
 
-		// ルームがないと入室に失敗するため、その時は自分で作る
-		// 引数でルーム名を指定できる
-		PhotonNetwork.CreateRoom("myRoomName");
+	void Update()
+	{
+		if (PhotonNetwork.connectionStateDetailed.ToString() != "Joined")
+		{
+			Debug.Log(PhotonNetwork.connectionStateDetailed.ToString());
+			//textStatus.text = PhotonNetwork.connectionStateDetailed.ToString();
+		}
+		//else
+		// textStatus.text = "Connect to the room" + PhotonNetwork.room.Name
+		// 	+ "Players Online" + PhotonNetwork.room.PlayerCount
+		// 	+ "Master: " + PhotonNetwork.isMasterClient;
 	}
 }
