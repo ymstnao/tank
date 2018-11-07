@@ -4,7 +4,6 @@ using UnityEngine;
 
 public class HP : MonoBehaviour, IDamagable
 {
-    [SerializeField]
     private float currnetHP;
     [SerializeField]
     private float maxHP;
@@ -12,7 +11,7 @@ public class HP : MonoBehaviour, IDamagable
     // Use this for initialization
     void Start()
     {
-
+        currnetHP = maxHP;
     }
 
     public void Damage(float damage)
@@ -33,6 +32,11 @@ public class HP : MonoBehaviour, IDamagable
     public bool IsDaed()
     {
         return currnetHP <= 0;
+    }
+
+    public float Rate() {
+        var r = (float)currnetHP / (float)maxHP;
+        return Mathf.Lerp(0, 1, r);
     }
 
     public float CurrentHP
