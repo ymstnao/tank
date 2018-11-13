@@ -105,5 +105,10 @@ namespace Complete
 			// Turn the tank off.
 			gameObject.SetActive(false);
 		}
+
+		  public bool IsDead()
+        {
+            return m_CurrentHealth <= 0;
+        }
 	}
 }
