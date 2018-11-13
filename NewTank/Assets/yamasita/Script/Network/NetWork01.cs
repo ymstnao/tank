@@ -11,8 +11,6 @@ public class NetWork01 : MonoBehaviour
 	GameObject player;
 	[SerializeField]
 	Transform spawnPoint;
-	[SerializeField]
-	private GameObject camera;
 
 	[SerializeField]
 	GameObject gameManager;
@@ -48,10 +46,8 @@ public class NetWork01 : MonoBehaviour
 		if (PhotonNetwork.isMasterClient)
 		{
 			PhotonNetwork.InstantiateSceneObject(gameManager.name, Vector3.zero, Quaternion.identity, 0, null);
-
 		}
 
-		GameObject.FindObjectOfType<GamePlayManager>().CameraUpdate();
 	}
 
 
