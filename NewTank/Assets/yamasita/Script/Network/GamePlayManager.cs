@@ -2,12 +2,8 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-[RequireComponent(typeof(PhotonView))]
 public class GamePlayManager : Singleton
 {
-
-	private PhotonView view;
-
 	[SerializeField]
 	private GameObject cameraControl;
 
@@ -40,14 +36,11 @@ public class GamePlayManager : Singleton
 	// Use this for initialization
 	void Start()
 	{
-		view = GetComponent<PhotonView>();
 	}
 
 	// Update is called once per frame
 	void Update()
 	{
-		if (!view.isMine)
-			return;
 	}
 
 	public void CameraUpdate()
@@ -60,10 +53,6 @@ public class GamePlayManager : Singleton
 	{
 	}
 
-	[PunRPC]
-	private void RPCDayUpdate()
-	{
-		//UIManager.Instance.AddProgressDays();
-	}
+
 }
 

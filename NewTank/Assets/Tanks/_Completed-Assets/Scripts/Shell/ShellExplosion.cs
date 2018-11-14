@@ -51,17 +51,22 @@ namespace Complete
 
 				// Calculate the amount of damage the target should take based on it's distance from the shell.
 				float damage = CalculateDamage(targetRigidbody.position);
-                // Find the TankHealth script associated with the rigidbody.
-                IDamagable targetHealth = targetRigidbody.GetComponent<IDamagable> ();
-
-                // If there is no TankHealth script attached to the gameobject, go on to the next collider.
-                if (targetHealth == null)
+				// Find the TankHealth script associated with the rigidbody.
+				IDamagable targetHealth = targetRigidbody.GetComponent<IDamagable>();
+				
+				// If there is no TankHealth script attached to the gameobject, go on to the next collider.
+				if (targetHealth == null)
 				{
 					continue;
 				}
-                // Deal this damage to the tank.
-                targetHealth.Damage (damage);
-            }
+
+				if (targetHealth is TankHealth)
+				{
+					continue;
+				}
+				// Deal this damage to the tank.
+				targetHealth.Damage(damage);
+			}
 
 			m_ExplosionParticles.transform.parent = null;
 
