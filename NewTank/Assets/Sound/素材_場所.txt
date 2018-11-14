@@ -1,0 +1,19 @@
+●効果音ラボ
+○ボタン・システム音[1](https://soundeffect-lab.info/sound/button/)
+･decision6
+･decision10
+･decision11
+･decision12
+･decision16
+･decision18
+･decision19
+●くらげ工匠
+○システム音・電子音 -フリー効果音素材(http://www.kurage-kosho.info/system.html)
+･button05
+･button06
+･button32
+･button83
+･button84
+●魔王魂(https://maoudamashii.jokersounds.com/)
+○
+･se_maoudamashii_element_fire07

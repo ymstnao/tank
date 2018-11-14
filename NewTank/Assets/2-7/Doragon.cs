@@ -24,14 +24,11 @@ public class Doragon : Character
     [SerializeField]
     private float interval = 2f;
 
+    [SerializeField]
+    PhotonView view;
 
     private List<TankHealth> players = new List<TankHealth>();
-    private Transform targetPlayer;
-
-    // アニメーター各ステートへの参照
-    static int idleState = Animator.StringToHash("Base Layer.Idle");
-    static int runState = Animator.StringToHash("Base Layer.Run");
-    static int attackState = Animator.StringToHash("Base Layer.Attack");
+    private Transform targetTransform;
 
     // Use this for initialization
     public override void Start()
@@ -41,7 +38,7 @@ public class Doragon : Character
         anim = GetComponent<Animator>();
         hpBar.GetComponent<Slider>();
         hpBar.value = hp.Rate();
-        
+        view = GetComponent<PhotonView>();
     }
 
     private void Init()
@@ -51,7 +48,7 @@ public class Doragon : Character
                                        .ToList();
 
         var r = Random.Range(0, players.Count);
-        targetPlayer = players[r].transform;
+        targetTransform = players[r].transform;
 
         StartCoroutine(Shot());
     }
@@ -59,8 +56,7 @@ public class Doragon : Character
     // Update is called once per frame
     void Update()
     {
-        //this.transform.LookAt(targetPlayer);
-        //AnimationController();
+
     }
 
     private IEnumerator Shot()
@@ -69,7 +65,8 @@ public class Doragon : Character
         {
             yield return new WaitForSeconds(interval);
 
-            testDragon.Shot(targetPlayer.position);
+            testDragon.ShotPhoton(targetTransform.position);
+            targetTransform = RandomPlayerExtraction();
 
             yield return new WaitForEndOfFrame();
         }
