@@ -5,9 +5,6 @@ namespace Complete
 {
 	public class TankHealth : MonoBehaviour, IDamagable
 	{
-		private PhotonView view;
-
-
 		public float m_StartingHealth = 100f;               // The amount of health each tank starts with.
 		public Slider m_Slider;                             // The slider to represent how much health the tank currently has.
 		public Image m_FillImage;                           // The image component of the slider.
@@ -36,8 +33,6 @@ namespace Complete
 
 		void Start()
 		{
-			view = GetComponent<PhotonView>();
-
 			// 	Renderer renderer = .GetComponent<Renderer>();
 			// 	renderer.material.color = ConstColors.MATERIAL_COLORS[view.ownerId % ConstColors.MATERIAL_COLORS.Length];
 		}
@@ -56,13 +51,6 @@ namespace Complete
 
 		public void Damage(float damage)
 		{
-			view.RPC("RPCDamage", PhotonTargets.AllViaServer, damage);
-
-		}
-
-		[PunRPC]
-		private void RPCDamage(float damage)
-		{
 			// Reduce current health by the amount of damage done.
 			m_CurrentHealth -= damage;
 
@@ -74,9 +62,8 @@ namespace Complete
 			{
 				OnDeath();
 			}
-		}
 
-		[PunRPC]
+		}
 		private void SetHealthUI()
 		{
 			// Set the slider's value appropriately.
@@ -106,9 +93,9 @@ namespace Complete
 			gameObject.SetActive(false);
 		}
 
-		  public bool IsDead()
-        {
-            return m_CurrentHealth <= 0;
-        }
+		public bool IsDead()
+		{
+			return m_CurrentHealth <= 0;
+		}
 	}
 }
