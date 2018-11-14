@@ -2,14 +2,16 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+[RequireComponent(typeof(PhotonView))]
 public class GamePlayManager : Singleton
 {
 
-	[SerializeField, Tooltip("一日の時間（ｓ）")]
-	float dayTime = 300.0f;
-	float dayTimeCount = 0;
+	private PhotonView view;
 
-	PhotonView view;
+	[SerializeField]
+	private GameObject cameraControl;
+
+	private bool cameraUpdate;
 
 	public new static GamePlayManager Instance
 	{
@@ -44,10 +46,15 @@ public class GamePlayManager : Singleton
 	// Update is called once per frame
 	void Update()
 	{
-
 		if (!view.isMine)
 			return;
 	}
+
+	public void CameraUpdate()
+	{
+		cameraUpdate = true;
+	}
+
 
 	void DaysUpdate()
 	{

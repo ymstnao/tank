@@ -15,9 +15,6 @@ public class Doragon : Character
     private Slider hpBar;
 
     [SerializeField]
-    private GameObject deathEffect;//死亡時エフェクト
-
-    [SerializeField]
     private HP hp;
     [SerializeField]
     private TestDragon testDragon;
@@ -56,7 +53,9 @@ public class Doragon : Character
     // Update is called once per frame
     void Update()
     {
-
+        //this.transform.LookAt(targetPlayer);
+        //AnimationController();
+        hpBar.value = hp.Rate();
     }
 
     private IEnumerator Shot()
